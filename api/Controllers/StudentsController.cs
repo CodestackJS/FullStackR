@@ -20,14 +20,14 @@ namespace api.Controllers;
             _context = context;
         }
       
-      [HttpGet]
+      [HttpGet] // read
       public async Task<IEnumerable<Student>> getStudent()
       {
         var students = await _context.Students.AsNoTracking().ToListAsync();
         return students;
       }
 
-      [HttpPost]
+      [HttpPost] // create
       public async Task<IActionResult> Create(Student student)
       {
         if(!ModelState.IsValid)
@@ -36,12 +36,74 @@ namespace api.Controllers;
         }
         await _context.AddAsync(student);
         var result = await _context.SaveChangesAsync();
-        if (result > 0)
+        if (result > 0) 
         {
             return Ok();
         }
         return BadRequest();
       }
 
+      /// Delete 
+      [HttpDelete("{id:int}")]
+
+      public async Task<IActionResult> Delete(int id)
+      {
+        var student = await _context.Students.FindAsync(id);
+        if (student == null)
+        {
+          return NotFound();
+        }
+        _context.Remove(student);
+
+        var result = await _context.SaveChangesAsync();
+
+        if (result > 0)
+        {
+          return Ok("Student was deleted");
+        }
+        return BadRequest("Unable to delete student");
+
+
+      }
+
+        // GET a single student {id}
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Student>> GetStudent(int id)
+        {
+          var student = await _context.Students.FindAsync(id);
+          if(student == null)
+          {
+            return NotFound("Sorry Student not found");
+          }
+          return Ok(student);
+        }
+
+
+      // Update PUT
+
+      [HttpPut("{id:int}")]
+      public async Task<IActionResult> EditStudent(int id, Student student)
+      {
+        var studentFromDb = await _context.Students.FindAsync(id);
+        if(studentFromDb == null)
+        {
+          return BadRequest("Student not found");
+        }
+        studentFromDb.Name = student.Name;
+        studentFromDb.Email = student.Email;
+        studentFromDb.Address = student.Address;
+        studentFromDb.PhoneNumber = student.PhoneNumber;
+
+        var result = await _context.SaveChangesAsync(); 
+        if(result > 0)
+        {
+          return Ok("Student was edited");
+        }
+          return BadRequest("Unable to update data");
+
+
+      }
+
     }
+    
    
