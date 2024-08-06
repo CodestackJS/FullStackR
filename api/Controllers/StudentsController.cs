@@ -6,7 +6,6 @@ using api.Data;
 using api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
 
 namespace api.Controllers;
 
