@@ -53,6 +53,7 @@ const fetchData = () => {
   })
 }
 
+//useEffect *** to continue ***
 useEffect(() => {
   fetchData();
 }, []);
