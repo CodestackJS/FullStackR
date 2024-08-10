@@ -24,6 +24,7 @@ import {
   PopoverContent,
   PopoverFooter,
   PopoverHeader,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -41,6 +42,8 @@ export const DirectoryTable = () => {
   //useState
   const [data, setData] = useState<Student[]>([]);
 
+
+  const toast = useToast();
 //Function to get data from API
 const fetchData = () => {
   axios
@@ -52,6 +55,21 @@ const fetchData = () => {
     console.log(error);
   })
 }
+
+
+const studentDelete = (id:number) => {
+  axios.delete(BASE_URL+'Students/' + id)
+  .then(() =>{
+    toast({
+      title: "Student Deleted.",
+      description: "Student Deleted",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    })
+  })
+}
+
 
 //useEffect *** to continue ***
 useEffect(() => {
@@ -122,7 +140,7 @@ useEffect(() => {
                             <Button
                               colorScheme="red"
                               variant={"outline"}
-                              //onClick={() => studentDelete(student.id)}
+                              onClick={() => studentDelete(student.id)}
                             >
                               Delete
                             </Button>
