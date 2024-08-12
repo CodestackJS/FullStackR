@@ -8,7 +8,7 @@ import { BASE_URL } from "../constant";
 interface StudentFormProps {
     isOpen: boolean;
     onClose: () => void;
-    fetchStudent: () => void;
+    fetchProduct: () => void;
     currentData?: Student;
 }
 
@@ -18,7 +18,7 @@ const StudentForm = () =>
     ({
         isOpen,
         onClose,
-        fetchStudent,
+        fetchProduct,
         currentData,
     }: StudentFormProps) => {
         const toast = useToast();
@@ -44,7 +44,7 @@ const StudentForm = () =>
                 .put(BASE_URL + "Students/" + currentData?.id, student)
                 .then(() => {
                     onClose();
-                    fetchStudent();
+                    fetchProduct();
                     toast({
                         title: "Student Updated.",
                         description: "Product Updated Successfully",
@@ -64,7 +64,7 @@ const StudentForm = () =>
                 .post(BASE_URL + "Students", student)
                 .then((response) => {
                     onClose();
-                    fetchStudent();
+                    fetchProduct();
                     toast({
                         title: "Product Added.",
                         description: "Product Added Succesfully",

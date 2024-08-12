@@ -186,10 +186,10 @@ const getStudent = (id: number) => {
         )}
         {isOpen && (
           <StudentForm
-               currentData={currentData}
-               fetchStudent={fetchData}
-               isOpen={isOpen}
-               onClose={onClose}
+            currentData={currentData}
+            fetchProduct={fetchData}
+            isOpen={isOpen}
+            onClose={onClose}
           />
         )}
       
