@@ -8,7 +8,7 @@ import { BASE_URL } from "../constant";
 interface StudentFormProps {
     isOpen: boolean;
     onClose: () => void;
-    fetchProduct: () => void;
+    fetchStudent: () => void;
     currentData?: Student;
 }
 
@@ -97,27 +97,27 @@ const StudentForm = () =>
                                     }
                                 />
                                 <Textarea
-                                    placeholder="Description"
-                                    value={student.description}
+                                    placeholder="Address"
+                                    value={student.address}
                                     onChange={(e) =>
-                                        setStudent({ ...student, description: e.target.value })
+                                        setStudent({ ...student, address: e.target.value })
                                     }
                                 />
-                                <Input
-                                    type="number"
-                                    placeholder="Price"
-                                    value={student.price}
+                                <Textarea
+                                    placeholder="Phone Number"
+                                    value={student.phoneNumber}
                                     onChange={(e) =>
-                                        setStudent({ ...student, price: e.target.value })
+                                        setStudent({ ...student, phoneNumber: e.target.value })
                                     }
                                 />
-                                <Text>Is in Store?</Text>
-                                <Switch
-                                    isChecked={student.isInStore}
+                                <Textarea
+                                    placeholder="Email"
+                                    value={student.email}
                                     onChange={(e) =>
-                                        setStudent({ ...student, isInStore: e.target.checked })
+                                        setStudent({ ...student, email: e.target.value })
                                     }
                                 />
+                                
                             </VStack>
                         </ModalBody>
 

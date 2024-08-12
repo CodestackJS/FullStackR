@@ -25,10 +25,12 @@ import {
   PopoverFooter,
   PopoverHeader,
   useToast,
+  useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../constant";
+import StudentForm from "./StudentForm";
 
 export interface Student {
   id: number;
@@ -41,6 +43,12 @@ export interface Student {
 export const DirectoryTable = () => {
   //useState
   const [data, setData] = useState<Student[]>([]);
+  
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+
+  //UseStates
+  const [currentData, setCurrentData] = useState<Student>({} as Student);
 
 
   const toast = useToast();
@@ -56,6 +64,10 @@ const fetchData = () => {
   })
 }
 
+const handleAdd = () => {
+  onOpen();
+  setCurrentData({} as Student);
+};
 
 const studentDelete = (id:number) => {
   axios.delete(BASE_URL+'Students/' + id)
@@ -70,11 +82,23 @@ const studentDelete = (id:number) => {
   })
 }
 
-
 //useEffect *** to continue ***
 useEffect(() => {
   fetchData();
 }, []);
+
+const getStudent = (id: number) => {
+  axios
+    .get(BASE_URL + "Student/" + id)
+    .then((res) => {
+      setCurrentData(res.data);
+      
+      onOpen();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
 
 
   return (
@@ -83,7 +107,7 @@ useEffect(() => {
         <Flex justifyContent={"space-between"} px={"5"}>
           <Heading fontSize={25}>Student Directory</Heading>
           <Button
-            // onClick={() => handleAdd()}
+            onClick={() => handleAdd()}
             color="teal.300"
             leftIcon={<AddIcon />}
           >
@@ -120,7 +144,7 @@ useEffect(() => {
                   <Td>
                     <HStack>
                       <EditIcon
-                        //onClick={() => getStudent(student.id)}
+                        onClick={() => getStudent(student.id)}
                         boxSize={23}
                         color={"orange.200"}
                       />
@@ -155,19 +179,19 @@ useEffect(() => {
           </Table>
         </TableContainer>
 
-        {/* {data.length == 0 && (
+        {data.length == 0 && (
           <Heading p={5} textAlign={"center"} fontSize={24}>
             No Data
           </Heading>
         )}
         {isOpen && (
-          <ProductForm
-            currentData={currentData}
-            fetchProduct={fetchData}
-            isOpen={isOpen}
-            onClose={onClose}
+          <StudentForm
+               currentData={currentData}
+               fetchStudent={fetchData}
+               isOpen={isOpen}
+               onClose={onClose}
           />
-        )} */}
+        )}
       
       </Box>
     </>
